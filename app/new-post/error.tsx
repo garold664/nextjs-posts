@@ -1,6 +1,6 @@
 'use client';
 
-export default function NewPostError({ error }) {
+export default function NewPostError({ error }: { error: Error }) {
   return (
     <>
       <h2>An error occurred!</h2>
