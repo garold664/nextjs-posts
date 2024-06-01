@@ -1,3 +1,7 @@
+import { redirect } from 'next/navigation';
+
+import { useFormStatus } from 'react-dom';
+
 import { storePost } from '@/lib/posts';
 
 export default function NewPostPage() {
@@ -13,6 +17,8 @@ export default function NewPostPage() {
       content,
       userId: 1,
     });
+
+    redirect('/feed');
   }
 
   return (
