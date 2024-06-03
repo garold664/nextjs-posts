@@ -5,11 +5,16 @@ import FormSubmit from '@/components/form-submit';
 export default function PostForm({
   action,
 }: {
-  action: (formData: FormData) => Promise<{
+  action: (
+    prevState: { errors: string[] },
+    formData: FormData
+  ) => Promise<{
     errors: string[];
   }>;
 }) {
-  const [state, formAction] = useFormState(action, {});
+  const [state, formAction] = useFormState(action, {
+    errors: [],
+  });
   return (
     <>
       <h1>Create a new post</h1>
