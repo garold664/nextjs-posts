@@ -52,3 +52,7 @@ export async function createPost(
 
   redirect('/feed');
 }
+
+export async function togglePostLikeStatus(postId: number) {
+  updatePostLikeStatus(postId, 2);
+}

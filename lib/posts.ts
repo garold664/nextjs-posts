@@ -2,14 +2,18 @@ import sql from 'better-sqlite3';
 
 const db = new sql('posts.db');
 
-type Post = {
-  // id: number;
+export interface Post {
   imageUrl: string;
   title: string;
   content: string;
-  // createdAt: string;
   userId: number;
-};
+}
+
+export interface PostExtended extends Post {
+  id: number;
+  userFirstName: string;
+  createdAt: string;
+}
 
 function initDb() {
   db.exec(`
@@ -58,15 +62,15 @@ function initDb() {
 
 initDb();
 
-export async function getPosts(maxNumber?: number) {
+export async function getPosts(maxNumber?: number): Promise<PostExtended[]> {
   let limitClause = '';
 
   if (maxNumber) {
     limitClause = 'LIMIT ?';
   }
 
-  const stmt = db.prepare(`
-    SELECT posts.id, image_url AS image, title, content, created_at AS createdAt, first_name AS userFirstName, last_name AS userLastName, COUNT(likes.post_id) AS likes, EXISTS(SELECT * FROM likes WHERE likes.post_id = posts.id and likes.user_id = 2) AS isLiked
+  const stmt = db.prepare<number[], PostExtended>(`
+    SELECT posts.id, image_url AS imageUrl, title, content, created_at AS createdAt, first_name AS userFirstName, last_name AS userLastName, COUNT(likes.post_id) AS likes, EXISTS(SELECT * FROM likes WHERE likes.post_id = posts.id and likes.user_id = 2) AS isLiked
     FROM posts
     INNER JOIN users ON posts.user_id = users.id
     LEFT JOIN likes ON posts.id = likes.post_id

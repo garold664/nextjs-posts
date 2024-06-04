@@ -1,11 +1,12 @@
 import { formatDate } from '@/lib/format';
 import LikeButton from './like-icon';
+import type { PostExtended } from '@/lib/posts';
 
-function Post({ post }) {
+function Post({ post }: { post: PostExtended }) {
   return (
     <article className="post">
       <div className="post-image">
-        <img src={post.image} alt={post.title} />
+        <img src={post.imageUrl} alt={post.title} />
       </div>
       <div className="post-content">
         <header>
@@ -28,7 +29,7 @@ function Post({ post }) {
   );
 }
 
-export default function Posts({ posts }) {
+export default function Posts({ posts }: { posts: PostExtended[] }) {
   if (!posts || posts.length === 0) {
     return <p>There are no posts yet. Maybe start sharing some?</p>;
   }
