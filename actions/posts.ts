@@ -2,6 +2,7 @@
 import { redirect } from 'next/navigation';
 import { storePost, updatePostLikeStatus } from '@/lib/posts';
 import { uploadImage } from '@/lib/cloudinary';
+import { revalidatePath } from 'next/cache';
 
 export async function createPost(
   _prevState: { errors: string[] },
@@ -55,5 +56,6 @@ export async function createPost(
 }
 
 export async function togglePostLikeStatus(postId: number) {
-  updatePostLikeStatus(postId, 2);
+  await updatePostLikeStatus(postId, 2);
+  revalidatePath('/feed');
 }
