@@ -2,6 +2,15 @@ import sql from 'better-sqlite3';
 
 const db = new sql('posts.db');
 
+type Post = {
+  // id: number;
+  imageUrl: string;
+  title: string;
+  content: string;
+  // createdAt: string;
+  userId: number;
+};
+
 function initDb() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -30,9 +39,11 @@ function initDb() {
     )`);
 
   // Creating two dummy users if they don't exist already
-  const stmt = db.prepare('SELECT COUNT(*) AS count FROM users');
+  const stmt = db.prepare<{ count: number }[], { count: number }>(
+    'SELECT COUNT(*) AS count FROM users'
+  );
 
-  if (stmt.get().count === 0) {
+  if (stmt.get()?.count === 0) {
     db.exec(`
     INSERT INTO users (first_name, last_name, email)
     VALUES ('John', 'Doe', 'john@example.com')
@@ -67,7 +78,7 @@ export async function getPosts(maxNumber?: number) {
   return maxNumber ? stmt.all(maxNumber) : stmt.all();
 }
 
-export async function storePost(post) {
+export async function storePost(post: Post) {
   const stmt = db.prepare(`
     INSERT INTO posts (image_url, title, content, user_id)
     VALUES (?, ?, ?, ?)`);
@@ -75,13 +86,13 @@ export async function storePost(post) {
   return stmt.run(post.imageUrl, post.title, post.content, post.userId);
 }
 
-export async function updatePostLikeStatus(postId, userId) {
-  const stmt = db.prepare(`
+export async function updatePostLikeStatus(postId: number, userId: number) {
+  const stmt = db.prepare<number[], { count: number }>(`
     SELECT COUNT(*) AS count
     FROM likes
     WHERE user_id = ? AND post_id = ?`);
 
-  const isLiked = stmt.get(userId, postId).count === 0;
+  const isLiked = stmt.get(userId, postId)?.count === 0;
 
   if (isLiked) {
     const stmt = db.prepare(`

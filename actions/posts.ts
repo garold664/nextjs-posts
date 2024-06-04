@@ -1,6 +1,6 @@
 'use server';
 import { redirect } from 'next/navigation';
-import { storePost } from '@/lib/posts';
+import { storePost, updatePostLikeStatus } from '@/lib/posts';
 import { uploadImage } from '@/lib/cloudinary';
 export async function createPost(
   prevState: { errors: string[] },
@@ -34,12 +34,21 @@ export async function createPost(
     throw new Error('Error uploading image');
   }
 
-  await storePost({
-    imageUrl,
-    title,
-    content,
-    userId: 1,
-  });
+  if (
+    title &&
+    title.trim().length > 0 &&
+    content &&
+    content.trim().length > 0 &&
+    imageUrl
+  ) {
+    console.log(title);
+    await storePost({
+      imageUrl,
+      title,
+      content,
+      userId: 1,
+    });
+  }
 
   redirect('/feed');
 }
