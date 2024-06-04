@@ -42,7 +42,7 @@ export default function PostForm({
         {state.errors && (
           <ul className="form-errors">
             {state.errors.map((error) => (
-              <li>{error}</li>
+              <li key={error}>{error}</li>
             ))}
           </ul>
         )}

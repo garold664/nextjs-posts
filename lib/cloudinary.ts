@@ -22,11 +22,8 @@ export async function uploadImage(image: File) {
   const imageData = await image.arrayBuffer();
   const mime = image.type;
   const encoding = 'base64';
-  const base64Data = Buffer.from(imageData).toString('base64');
+  const base64Data = Buffer.from(imageData).toString(encoding);
   const fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data;
-  const testUri =
-    'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg';
-  console.log(fileUri);
   const result = await cloudinary.uploader.upload(fileUri, {
     folder: 'nextjs-posts',
   });

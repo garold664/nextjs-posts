@@ -15,8 +15,8 @@ export async function createPost(
   if (!title || title.trim().length === 0) {
     errors.push('Title is required');
   }
-  if (!title || title.trim().length === 0) {
-    errors.push('Title is required');
+  if (!content || content.trim().length === 0) {
+    errors.push('Content is required');
   }
 
   if (!image || image.size === 0) {
