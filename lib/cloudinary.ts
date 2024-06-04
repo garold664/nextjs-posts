@@ -24,8 +24,11 @@ export async function uploadImage(image: File) {
   const encoding = 'base64';
   const base64Data = Buffer.from(imageData).toString('base64');
   const fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data;
+  const testUri =
+    'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg';
+  console.log(fileUri);
   const result = await cloudinary.uploader.upload(fileUri, {
-    folder: 'nextjs-course-mutations',
+    folder: 'nextjs-posts',
   });
   return result.secure_url;
 }

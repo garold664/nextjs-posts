@@ -36,9 +36,9 @@ export default function PostForm({
           <label htmlFor="content">Content</label>
           <textarea id="content" name="content" rows={5} />
         </p>
-        <p className="form-actions">
+        <div className="form-actions">
           <FormSubmit />
-        </p>
+        </div>
         {state.errors && (
           <ul className="form-errors">
             {state.errors.map((error) => (
