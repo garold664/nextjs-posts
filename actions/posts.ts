@@ -2,8 +2,9 @@
 import { redirect } from 'next/navigation';
 import { storePost, updatePostLikeStatus } from '@/lib/posts';
 import { uploadImage } from '@/lib/cloudinary';
+
 export async function createPost(
-  prevState: { errors: string[] },
+  _prevState: { errors: string[] },
   formData: FormData
 ) {
   const title = formData.get('title') as string | null;

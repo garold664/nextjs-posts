@@ -13,6 +13,7 @@ export interface PostExtended extends Post {
   id: number;
   userFirstName: string;
   createdAt: string;
+  isLiked: boolean;
 }
 
 function initDb() {
