@@ -5,6 +5,7 @@ import LikeButton from './like-icon';
 import type { PostExtended } from '@/lib/posts';
 import { togglePostLikeStatus } from '@/actions/posts';
 import { useOptimistic } from 'react';
+import Image from 'next/image';
 
 type PostProps = {
   post: PostExtended;
@@ -15,7 +16,7 @@ function Post({ post, action }: PostProps) {
   return (
     <article className="post">
       <div className="post-image">
-        <img src={post.imageUrl} alt={post.title} />
+        <Image src={post.imageUrl} fill alt={post.title} />
       </div>
       <div className="post-content">
         <header>
