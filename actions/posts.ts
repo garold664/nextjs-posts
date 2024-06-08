@@ -43,7 +43,6 @@ export async function createPost(
     content.trim().length > 0 &&
     imageUrl
   ) {
-    console.log(title);
     await storePost({
       imageUrl,
       title,
@@ -51,7 +50,7 @@ export async function createPost(
       userId: 1,
     });
   }
-
+  revalidatePath('/feed');
   redirect('/feed');
 }
 

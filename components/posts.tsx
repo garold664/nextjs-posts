@@ -69,7 +69,6 @@ export default function Posts({ posts }: { posts: PostExtended[] }) {
   }
 
   async function updatePost(postId: number) {
-    console.log('update');
     updateOptimisticPosts(postId);
     await togglePostLikeStatus(postId);
   }
