@@ -7,6 +7,18 @@ import { togglePostLikeStatus } from '@/actions/posts';
 import { useOptimistic } from 'react';
 import Image from 'next/image';
 
+function imageLoader(config: {
+  src: string;
+  quality: number | undefined;
+  width: number;
+}) {
+  // console.log(config);
+  const urlSrart = config.src.split('/upload')[0];
+  const urlEnd = config.src.split('/upload')[1];
+  const transformations = `w_200,q_${config.quality}`;
+  return `${urlSrart}/upload/${transformations}${urlEnd}`;
+}
+
 type PostProps = {
   post: PostExtended;
   action: (postId: number) => void;
@@ -16,7 +28,14 @@ function Post({ post, action }: PostProps) {
   return (
     <article className="post">
       <div className="post-image">
-        <Image src={post.imageUrl} fill alt={post.title} />
+        <Image
+          loader={imageLoader}
+          src={post.imageUrl}
+          width={200}
+          height={150}
+          alt={post.title}
+          quality={55}
+        />
       </div>
       <div className="post-content">
         <header>
